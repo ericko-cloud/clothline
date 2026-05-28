@@ -76,7 +76,7 @@ const queryClient = new QueryClient({
   }),
 })
 
-const isGitHubPages = import.meta.env.BASE_URL !== '/'
+const isGitHubPages = __GITHUB_PAGES__
 
 // Create a new router instance
 const router = createRouter({

@@ -11,6 +11,9 @@ const base = process.env.GITHUB_PAGES === 'true' ? '/clothline/' : '/'
 // https://vite.dev/config/
 export default defineConfig({
   base,
+  define: {
+    __GITHUB_PAGES__: JSON.stringify(process.env.GITHUB_PAGES === 'true'),
+  },
   plugins: [
     tanstackRouter({
       target: 'react',
