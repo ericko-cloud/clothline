@@ -6,7 +6,11 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
-import { RouterProvider, createRouter } from '@tanstack/react-router'
+import {
+  RouterProvider,
+  createHashHistory,
+  createRouter,
+} from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { useAuthStore } from '@/stores/auth-store'
 import { handleServerError } from '@/lib/handle-server-error'
@@ -72,13 +76,12 @@ const queryClient = new QueryClient({
   }),
 })
 
+const isGitHubPages = import.meta.env.BASE_URL !== '/'
+
 // Create a new router instance
 const router = createRouter({
   routeTree,
-  basepath:
-    import.meta.env.BASE_URL === '/'
-      ? '/'
-      : import.meta.env.BASE_URL.replace(/\/$/, ''),
+  history: isGitHubPages ? createHashHistory() : undefined,
   context: { queryClient },
   defaultPreload: 'intent',
   defaultPreloadStaleTime: 0,
