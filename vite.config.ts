@@ -6,8 +6,11 @@ import tailwindcss from '@tailwindcss/vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import { playwright } from '@vitest/browser-playwright'
 
+const base = process.env.GITHUB_PAGES === 'true' ? '/clothline/' : '/'
+
 // https://vite.dev/config/
 export default defineConfig({
+  base,
   plugins: [
     tanstackRouter({
       target: 'react',
