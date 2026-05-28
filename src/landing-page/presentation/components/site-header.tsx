@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { LayoutDashboard, Menu, Search, ShoppingBag } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
@@ -35,10 +36,10 @@ export function SiteHeader() {
             <ShoppingBag className='size-4' />
           </Button>
           <Button variant='outline' className='hidden md:inline-flex' asChild>
-            <a href='/admin'>
+            <Link to='/admin'>
               <LayoutDashboard className='size-4' />
               Demo
-            </a>
+            </Link>
           </Button>
           <Button variant='outline' size='icon' className='md:hidden' aria-label='Open menu'>
             <Menu className='size-4' />

@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { ArrowRight, LayoutDashboard, Sparkles } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -26,10 +27,10 @@ export function HeroSection() {
               </a>
             </Button>
             <Button size='lg' variant='outline' asChild>
-              <a href='/admin'>
+              <Link to='/admin'>
                 <LayoutDashboard className='size-4' />
                 Demo Admin
-              </a>
+              </Link>
             </Button>
           </div>
           <dl className='mt-10 grid max-w-lg grid-cols-3 gap-4 text-sm'>
