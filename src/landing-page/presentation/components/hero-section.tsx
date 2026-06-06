@@ -21,10 +21,10 @@ export function HeroSection() {
           </p>
           <div className='mt-8 flex flex-col gap-3 sm:flex-row'>
             <Button size='lg' asChild>
-              <a href='#catalog'>
-                Belanja Catalog
+              <Link to='/catalog'>
+                Belanja Katalog
                 <ArrowRight className='size-4' />
-              </a>
+              </Link>
             </Button>
             <Button size='lg' variant='outline' asChild>
               <Link to='/admin'>
@@ -56,7 +56,7 @@ export function HeroSection() {
             className='absolute inset-0 size-full object-cover'
           />
           <div className='absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent p-6 text-white'>
-            <p className='text-sm uppercase tracking-[0.18em] text-white/70'>
+            <p className='text-sm tracking-[0.18em] text-white/70 uppercase'>
               curated looks
             </p>
             <p className='mt-2 max-w-md text-2xl font-semibold'>

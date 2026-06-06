@@ -1,14 +1,15 @@
 import { CatalogSection } from '../components/catalog-section'
 import { CategorySection } from '../components/category-section'
+import { DiscountCodeSection } from '../components/discount-code-section'
 import { HeroSection } from '../components/hero-section'
-import { PromoSection } from '../components/promo-section'
 import { SiteFooter } from '../components/site-footer'
 import { SiteHeader } from '../components/site-header'
 import { TestimonialSection } from '../components/testimonial-section'
 import { useLandingPage } from '../hooks/use-landing-page'
 
 export function LandingPage() {
-  const { categories, featuredProducts, testimonials } = useLandingPage()
+  const { categories, discounts, featuredProducts, testimonials } =
+    useLandingPage()
 
   return (
     <div className='min-h-screen bg-background text-foreground'>
@@ -17,7 +18,7 @@ export function LandingPage() {
         <HeroSection />
         <CategorySection categories={categories} />
         <CatalogSection products={featuredProducts} />
-        <PromoSection />
+        <DiscountCodeSection discounts={discounts} />
         <TestimonialSection testimonials={testimonials} />
       </main>
       <SiteFooter />

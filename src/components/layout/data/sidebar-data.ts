@@ -1,5 +1,7 @@
 import {
   Construction,
+  BadgePercent,
+  Database,
   LayoutDashboard,
   Monitor,
   Bug,
@@ -8,7 +10,6 @@ import {
   HelpCircle,
   Lock,
   Bell,
-  Package,
   Palette,
   ServerOff,
   Settings,
@@ -16,7 +17,8 @@ import {
   UserCog,
   UserX,
   Users,
-  MessagesSquare,
+  Tags,
+  Shirt,
   ShieldCheck,
   AudioWaveform,
   Command,
@@ -63,15 +65,25 @@ export const sidebarData: SidebarData = {
           icon: ListTodo,
         },
         {
-          title: 'Apps',
-          url: '/apps',
-          icon: Package,
-        },
-        {
-          title: 'Chats',
-          url: '/chats',
-          badge: '3',
-          icon: MessagesSquare,
+          title: 'Master Data',
+          icon: Database,
+          items: [
+            {
+              title: 'Master Kategori',
+              url: '/master-data/categories',
+              icon: Tags,
+            },
+            {
+              title: 'Master Produk',
+              url: '/master-data/products',
+              icon: Shirt,
+            },
+            {
+              title: 'Master Diskon',
+              url: '/master-data/discounts',
+              icon: BadgePercent,
+            },
+          ],
         },
         {
           title: 'Users',

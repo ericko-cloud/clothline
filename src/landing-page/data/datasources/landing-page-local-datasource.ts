@@ -24,6 +24,28 @@ export const landingPageLocalDatasource: LandingPageContent = {
         'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=900&q=80',
     },
   ],
+  discounts: [
+    {
+      id: 'spring35',
+      code: 'SPRING35',
+      title: 'Diskon koleksi spring',
+      description: 'Potongan untuk koleksi basic, linen, dan outerwear.',
+      type: 'percentage',
+      value: 35,
+      minimumPurchase: { amount: 300000, currency: 'IDR' },
+      isActive: true,
+    },
+    {
+      id: 'clothline50',
+      code: 'CLOTHLINE50',
+      title: 'Voucher belanja pertama',
+      description: 'Kode diskon simulasi untuk pelanggan baru Clothline.',
+      type: 'fixed',
+      value: 50000,
+      minimumPurchase: { amount: 250000, currency: 'IDR' },
+      isActive: true,
+    },
+  ],
   featuredProducts: [
     {
       id: 'linen-midi-dress',

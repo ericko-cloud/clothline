@@ -1,14 +1,24 @@
+import { useNavigate } from '@tanstack/react-router'
+import { type Product } from '@/landing-page/domain/entities/product'
+import { formatMoney } from '@/landing-page/domain/value-objects/money'
 import { Heart, ShoppingBag, Star } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { type Product } from '@/landing-page/domain/entities/product'
-import { formatMoney } from '@/landing-page/domain/value-objects/money'
+import { useCartStore } from '../stores/cart-store'
 
 type ProductCardProps = {
   product: Product
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const navigate = useNavigate()
+  const addItem = useCartStore((state) => state.addItem)
+
+  const handleAddToCart = () => {
+    addItem(product)
+    navigate({ to: '/cart' })
+  }
+
   return (
     <article className='group overflow-hidden rounded-lg border bg-background'>
       <div className='relative aspect-[4/5] overflow-hidden bg-muted'>
@@ -18,12 +28,12 @@ export function ProductCard({ product }: ProductCardProps) {
           className='size-full object-cover transition duration-500 group-hover:scale-105'
         />
         {product.badge ? (
-          <Badge className='absolute left-3 top-3'>{product.badge}</Badge>
+          <Badge className='absolute top-3 left-3'>{product.badge}</Badge>
         ) : null}
         <Button
           size='icon'
           variant='secondary'
-          className='absolute right-3 top-3'
+          className='absolute top-3 right-3'
           aria-label={`Save ${product.name}`}
         >
           <Heart className='size-4' />
@@ -32,7 +42,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className='space-y-3 p-4'>
         <div className='flex items-start justify-between gap-3'>
           <div>
-            <p className='text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground'>
+            <p className='text-xs font-medium tracking-[0.12em] text-muted-foreground uppercase'>
               {product.category}
             </p>
             <h3 className='mt-1 font-semibold'>{product.name}</h3>
@@ -51,11 +61,17 @@ export function ProductCard({ product }: ProductCardProps) {
               </div>
             ) : null}
           </div>
-          <Button size='icon' aria-label={`Add ${product.name} to bag`}>
+          <Button
+            size='icon'
+            aria-label={`Add ${product.name} to bag`}
+            onClick={handleAddToCart}
+          >
             <ShoppingBag className='size-4' />
           </Button>
         </div>
-        <p className='text-sm text-muted-foreground'>{product.soldCount} terjual</p>
+        <p className='text-sm text-muted-foreground'>
+          {product.soldCount} terjual
+        </p>
       </div>
     </article>
   )
