@@ -1,4 +1,4 @@
-import { useNavigate } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { type Product } from '@/landing-page/domain/entities/product'
 import { formatMoney } from '@/landing-page/domain/value-objects/money'
 import { Heart, ShoppingBag, Star } from 'lucide-react'
@@ -22,11 +22,17 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <article className='group overflow-hidden rounded-lg border bg-background'>
       <div className='relative aspect-[4/5] overflow-hidden bg-muted'>
-        <img
-          src={product.imageUrl}
-          alt={product.name}
-          className='size-full object-cover transition duration-500 group-hover:scale-105'
-        />
+        <Link
+          to='/products/$productId'
+          params={{ productId: product.id }}
+          className='block size-full'
+        >
+          <img
+            src={product.imageUrl}
+            alt={product.name}
+            className='size-full object-cover transition duration-500 group-hover:scale-105'
+          />
+        </Link>
         {product.badge ? (
           <Badge className='absolute top-3 left-3'>{product.badge}</Badge>
         ) : null}
@@ -45,7 +51,15 @@ export function ProductCard({ product }: ProductCardProps) {
             <p className='text-xs font-medium tracking-[0.12em] text-muted-foreground uppercase'>
               {product.category}
             </p>
-            <h3 className='mt-1 font-semibold'>{product.name}</h3>
+            <h3 className='mt-1 font-semibold'>
+              <Link
+                to='/products/$productId'
+                params={{ productId: product.id }}
+                className='transition hover:text-muted-foreground'
+              >
+                {product.name}
+              </Link>
+            </h3>
           </div>
           <div className='flex items-center gap-1 text-sm'>
             <Star className='size-4 fill-amber-400 text-amber-400' />

@@ -16,11 +16,16 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { Textarea } from '@/components/ui/textarea'
 import { MasterPageShell } from './components/master-page-shell'
 
 const emptyForm = {
   name: '',
   category: '',
+  description: '',
+  material: '',
+  sizes: '',
+  stock: '0',
   imageUrl: '',
   price: '0',
   originalPrice: '',
@@ -35,6 +40,13 @@ function formToProduct(form: ProductForm): Omit<Product, 'id'> {
   return {
     name: form.name,
     category: form.category,
+    description: form.description,
+    material: form.material,
+    sizes: form.sizes
+      .split(',')
+      .map((size) => size.trim())
+      .filter(Boolean),
+    stock: Number(form.stock),
     imageUrl: form.imageUrl,
     price: { amount: Number(form.price), currency: 'IDR' },
     originalPrice: form.originalPrice
@@ -50,6 +62,10 @@ function productToForm(product: Product): ProductForm {
   return {
     name: product.name,
     category: product.category,
+    description: product.description ?? '',
+    material: product.material ?? '',
+    sizes: product.sizes?.join(', ') ?? '',
+    stock: String(product.stock ?? 0),
     imageUrl: product.imageUrl,
     price: String(product.price.amount),
     originalPrice: product.originalPrice
@@ -149,6 +165,66 @@ export function MasterProducts() {
                       setForm((current) => ({
                         ...current,
                         imageUrl: event.target.value,
+                      }))
+                    }
+                    required
+                  />
+                </div>
+                <div className='space-y-2 sm:col-span-2 xl:col-span-1'>
+                  <Label htmlFor='product-description'>Deskripsi produk</Label>
+                  <Textarea
+                    id='product-description'
+                    value={form.description}
+                    onChange={(event) =>
+                      setForm((current) => ({
+                        ...current,
+                        description: event.target.value,
+                      }))
+                    }
+                    required
+                  />
+                </div>
+                <div className='space-y-2'>
+                  <Label htmlFor='product-material'>Bahan</Label>
+                  <Input
+                    id='product-material'
+                    value={form.material}
+                    placeholder='Cotton, linen, rayon'
+                    onChange={(event) =>
+                      setForm((current) => ({
+                        ...current,
+                        material: event.target.value,
+                      }))
+                    }
+                    required
+                  />
+                </div>
+                <div className='space-y-2'>
+                  <Label htmlFor='product-sizes'>Ukuran</Label>
+                  <Input
+                    id='product-sizes'
+                    value={form.sizes}
+                    placeholder='S, M, L, XL'
+                    onChange={(event) =>
+                      setForm((current) => ({
+                        ...current,
+                        sizes: event.target.value,
+                      }))
+                    }
+                    required
+                  />
+                </div>
+                <div className='space-y-2'>
+                  <Label htmlFor='product-stock'>Stok tersedia</Label>
+                  <Input
+                    id='product-stock'
+                    type='number'
+                    min='0'
+                    value={form.stock}
+                    onChange={(event) =>
+                      setForm((current) => ({
+                        ...current,
+                        stock: event.target.value,
                       }))
                     }
                     required
@@ -266,6 +342,7 @@ export function MasterProducts() {
                 <TableRow>
                   <TableHead>Produk</TableHead>
                   <TableHead>Kategori</TableHead>
+                  <TableHead>Stok</TableHead>
                   <TableHead>Harga</TableHead>
                   <TableHead>Rating</TableHead>
                   <TableHead className='text-right'>Aksi</TableHead>
@@ -292,6 +369,7 @@ export function MasterProducts() {
                       </div>
                     </TableCell>
                     <TableCell>{product.category}</TableCell>
+                    <TableCell>{product.stock ?? 0}</TableCell>
                     <TableCell>{formatMoney(product.price)}</TableCell>
                     <TableCell>{product.rating}</TableCell>
                     <TableCell>

@@ -18,6 +18,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as ClerkRouteRouteImport } from './routes/clerk/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProductsProductIdRouteImport } from './routes/products/$productId'
 import { Route as errors503RouteImport } from './routes/(errors)/503'
 import { Route as errors500RouteImport } from './routes/(errors)/500'
 import { Route as errors404RouteImport } from './routes/(errors)/404'
@@ -32,7 +33,6 @@ import { Route as ClerkAuthenticatedRouteRouteImport } from './routes/clerk/_aut
 import { Route as ClerkauthRouteRouteImport } from './routes/clerk/(auth)/route'
 import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authenticated/settings/route'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
-import { Route as AuthenticatedTasksIndexRouteImport } from './routes/_authenticated/tasks/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
 import { Route as ClerkAuthenticatedUserManagementRouteImport } from './routes/clerk/_authenticated/user-management'
@@ -89,6 +89,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsProductIdRoute = ProductsProductIdRouteImport.update({
+  id: '/products/$productId',
+  path: '/products/$productId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const errors503Route = errors503RouteImport.update({
@@ -158,11 +163,6 @@ const AuthenticatedSettingsRouteRoute =
 const AuthenticatedUsersIndexRoute = AuthenticatedUsersIndexRouteImport.update({
   id: '/users/',
   path: '/users/',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedTasksIndexRoute = AuthenticatedTasksIndexRouteImport.update({
-  id: '/tasks/',
-  path: '/tasks/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedSettingsIndexRoute =
@@ -262,6 +262,7 @@ export interface FileRoutesByFullPath {
   '/404': typeof errors404Route
   '/500': typeof errors500Route
   '/503': typeof errors503Route
+  '/products/$productId': typeof ProductsProductIdRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/master-data/categories': typeof AuthenticatedMasterDataCategoriesRoute
   '/master-data/discounts': typeof AuthenticatedMasterDataDiscountsRoute
@@ -275,7 +276,6 @@ export interface FileRoutesByFullPath {
   '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
   '/help-center/': typeof AuthenticatedHelpCenterIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
-  '/tasks/': typeof AuthenticatedTasksIndexRoute
   '/users/': typeof AuthenticatedUsersIndexRoute
 }
 export interface FileRoutesByTo {
@@ -297,6 +297,7 @@ export interface FileRoutesByTo {
   '/404': typeof errors404Route
   '/500': typeof errors500Route
   '/503': typeof errors503Route
+  '/products/$productId': typeof ProductsProductIdRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/master-data/categories': typeof AuthenticatedMasterDataCategoriesRoute
   '/master-data/discounts': typeof AuthenticatedMasterDataDiscountsRoute
@@ -310,7 +311,6 @@ export interface FileRoutesByTo {
   '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
-  '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
 }
 export interface FileRoutesById {
@@ -337,6 +337,7 @@ export interface FileRoutesById {
   '/(errors)/404': typeof errors404Route
   '/(errors)/500': typeof errors500Route
   '/(errors)/503': typeof errors503Route
+  '/products/$productId': typeof ProductsProductIdRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/_authenticated/master-data/categories': typeof AuthenticatedMasterDataCategoriesRoute
   '/_authenticated/master-data/discounts': typeof AuthenticatedMasterDataDiscountsRoute
@@ -350,7 +351,6 @@ export interface FileRoutesById {
   '/clerk/_authenticated/user-management': typeof ClerkAuthenticatedUserManagementRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
-  '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
 }
 export interface FileRouteTypes {
@@ -375,6 +375,7 @@ export interface FileRouteTypes {
     | '/404'
     | '/500'
     | '/503'
+    | '/products/$productId'
     | '/errors/$error'
     | '/master-data/categories'
     | '/master-data/discounts'
@@ -388,7 +389,6 @@ export interface FileRouteTypes {
     | '/clerk/user-management'
     | '/help-center/'
     | '/settings/'
-    | '/tasks/'
     | '/users/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -410,6 +410,7 @@ export interface FileRouteTypes {
     | '/404'
     | '/500'
     | '/503'
+    | '/products/$productId'
     | '/errors/$error'
     | '/master-data/categories'
     | '/master-data/discounts'
@@ -423,7 +424,6 @@ export interface FileRouteTypes {
     | '/clerk/user-management'
     | '/help-center'
     | '/settings'
-    | '/tasks'
     | '/users'
   id:
     | '__root__'
@@ -449,6 +449,7 @@ export interface FileRouteTypes {
     | '/(errors)/404'
     | '/(errors)/500'
     | '/(errors)/503'
+    | '/products/$productId'
     | '/_authenticated/errors/$error'
     | '/_authenticated/master-data/categories'
     | '/_authenticated/master-data/discounts'
@@ -462,7 +463,6 @@ export interface FileRouteTypes {
     | '/clerk/_authenticated/user-management'
     | '/_authenticated/help-center/'
     | '/_authenticated/settings/'
-    | '/_authenticated/tasks/'
     | '/_authenticated/users/'
   fileRoutesById: FileRoutesById
 }
@@ -486,6 +486,7 @@ export interface RootRouteChildren {
   errors404Route: typeof errors404Route
   errors500Route: typeof errors500Route
   errors503Route: typeof errors503Route
+  ProductsProductIdRoute: typeof ProductsProductIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -551,6 +552,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/$productId': {
+      id: '/products/$productId'
+      path: '/products/$productId'
+      fullPath: '/products/$productId'
+      preLoaderRoute: typeof ProductsProductIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(errors)/503': {
@@ -649,13 +657,6 @@ declare module '@tanstack/react-router' {
       path: '/users'
       fullPath: '/users/'
       preLoaderRoute: typeof AuthenticatedUsersIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/tasks/': {
-      id: '/_authenticated/tasks/'
-      path: '/tasks'
-      fullPath: '/tasks/'
-      preLoaderRoute: typeof AuthenticatedTasksIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/settings/': {
@@ -782,7 +783,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedMasterDataDiscountsRoute: typeof AuthenticatedMasterDataDiscountsRoute
   AuthenticatedMasterDataProductsRoute: typeof AuthenticatedMasterDataProductsRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
-  AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
 }
 
@@ -794,7 +794,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedMasterDataDiscountsRoute: AuthenticatedMasterDataDiscountsRoute,
   AuthenticatedMasterDataProductsRoute: AuthenticatedMasterDataProductsRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
-  AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
 }
 
@@ -864,6 +863,7 @@ const rootRouteChildren: RootRouteChildren = {
   errors404Route: errors404Route,
   errors500Route: errors500Route,
   errors503Route: errors503Route,
+  ProductsProductIdRoute: ProductsProductIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
