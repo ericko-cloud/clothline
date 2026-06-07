@@ -1,30 +1,47 @@
+import { Link } from '@tanstack/react-router'
 import { type Category } from '@/landing-page/domain/entities/category'
+import { Button } from '@/components/ui/button'
 
 type CategorySectionProps = {
   categories: Category[]
+  limit?: number
+  showAllLink?: boolean
 }
 
-export function CategorySection({ categories }: CategorySectionProps) {
+export function CategorySection({
+  categories,
+  limit,
+  showAllLink,
+}: CategorySectionProps) {
+  const visibleCategories = limit ? categories.slice(0, limit) : categories
+
   return (
-    <section id='categories' className='mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8'>
+    <section
+      id='categories'
+      className='mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8'
+    >
       <div className='mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end'>
         <div>
-          <p className='text-sm font-medium uppercase tracking-[0.16em] text-muted-foreground'>
+          <p className='text-sm font-medium tracking-[0.16em] text-muted-foreground uppercase'>
             Category
           </p>
           <h2 className='mt-2 text-3xl font-semibold'>Pilih gaya belanjamu</h2>
         </div>
-        <p className='max-w-md text-sm leading-6 text-muted-foreground'>
-          Koleksi dipisahkan agar pembeli cepat menemukan outfit yang sesuai
-          kebutuhan dan ukuran.
-        </p>
+        <div className='flex max-w-md flex-col gap-4 sm:items-end'>
+          {showAllLink ? (
+            <Button variant='outline' size='sm' asChild>
+              <Link to='/categories'>Lihat semua kategori</Link>
+            </Button>
+          ) : null}
+        </div>
       </div>
 
-      <div className='grid gap-4 md:grid-cols-3'>
-        {categories.map((category) => (
-          <a
+      <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+        {visibleCategories.map((category) => (
+          <Link
             key={category.id}
-            href='#catalog'
+            to='/catalog'
+            search={{ category: category.name }}
             className='group relative min-h-[330px] overflow-hidden rounded-lg bg-muted'
           >
             <img
@@ -39,7 +56,7 @@ export function CategorySection({ categories }: CategorySectionProps) {
                 {category.description}
               </p>
             </div>
-          </a>
+          </Link>
         ))}
       </div>
     </section>

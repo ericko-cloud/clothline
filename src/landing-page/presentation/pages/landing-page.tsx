@@ -16,7 +16,7 @@ export function LandingPage() {
       <SiteHeader />
       <main>
         <HeroSection />
-        <CategorySection categories={categories} />
+        <CategorySection categories={categories} limit={4} showAllLink />
         <CatalogSection products={featuredProducts} />
         <DiscountCodeSection discounts={discounts} />
         <TestimonialSection testimonials={testimonials} />

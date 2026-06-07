@@ -1,8 +1,12 @@
+import { getRouteApi } from '@tanstack/react-router'
 import { CatalogSection } from '../components/catalog-section'
 import { ShopPageShell } from '../components/shop-page-shell'
 import { useLandingPage } from '../hooks/use-landing-page'
 
+const route = getRouteApi('/catalog')
+
 export function CatalogPage() {
+  const { category } = route.useSearch()
   const { featuredProducts } = useLandingPage()
 
   return (
@@ -21,7 +25,11 @@ export function CatalogPage() {
           </p>
         </div>
       </section>
-      <CatalogSection products={featuredProducts} />
+      <CatalogSection
+        key={category ?? 'all-categories'}
+        initialCategory={category}
+        products={featuredProducts}
+      />
     </ShopPageShell>
   )
 }

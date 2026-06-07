@@ -1,30 +1,12 @@
 import { type Discount } from '@/landing-page/domain/entities/discount'
 import { formatMoney } from '@/landing-page/domain/value-objects/money'
-import { BadgePercent, Ticket, Truck, Undo2, WalletCards } from 'lucide-react'
+import { BadgePercent, Ticket } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 
 type DiscountCodeSectionProps = {
   discounts?: Discount[]
 }
-
-const benefits = [
-  {
-    title: 'Gratis ongkir',
-    description: 'Untuk pembelian tertentu di area Indonesia.',
-    icon: Truck,
-  },
-  {
-    title: 'Retur mudah',
-    description: 'Tukar ukuran dalam 3 hari setelah barang diterima.',
-    icon: Undo2,
-  },
-  {
-    title: 'Bayar fleksibel',
-    description: 'Transfer, e-wallet, dan kartu debit tersedia.',
-    icon: WalletCards,
-  },
-]
 
 export function DiscountCodeSection({
   discounts = [],
@@ -51,10 +33,6 @@ export function DiscountCodeSection({
           <h2 className='mt-3 max-w-xl text-3xl font-semibold'>
             Gunakan kode diskon aktif dari Master Diskon.
           </h2>
-          <p className='mt-4 max-w-xl leading-7 text-muted-foreground'>
-            Kode berikut tersambung ke data simulasi admin, jadi tim bisa
-            menambah atau mengubah diskon tanpa integrasi backend dulu.
-          </p>
           <div className='mt-6 grid gap-3 sm:grid-cols-2'>
             {activeDiscounts.length > 0 ? (
               activeDiscounts.map((discount) => (
@@ -85,21 +63,6 @@ export function DiscountCodeSection({
                 Belum ada kode diskon aktif.
               </div>
             )}
-          </div>
-          <div className='mt-7 grid gap-4 sm:grid-cols-3'>
-            {benefits.map((benefit) => {
-              const Icon = benefit.icon
-
-              return (
-                <div key={benefit.title}>
-                  <Icon className='mb-3 size-5' />
-                  <h3 className='font-semibold'>{benefit.title}</h3>
-                  <p className='mt-1 text-sm leading-6 text-muted-foreground'>
-                    {benefit.description}
-                  </p>
-                </div>
-              )
-            })}
           </div>
           <Button className='mt-8 w-fit' asChild>
             <a href='#catalog'>Pakai Kode Diskon</a>
