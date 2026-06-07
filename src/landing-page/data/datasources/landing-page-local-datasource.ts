@@ -109,6 +109,98 @@ export const landingPageLocalDatasource: LandingPageContent = {
       isActive: true,
     },
   ],
+  sizeGuides: [
+    {
+      id: 'dress',
+      name: 'Dress',
+      columns: ['Size', 'Bust', 'Waist', 'Length'],
+      rows: [
+        { Size: 'S', Bust: '84-88 cm', Waist: '66-70 cm', Length: '112 cm' },
+        { Size: 'M', Bust: '88-92 cm', Waist: '70-74 cm', Length: '114 cm' },
+        { Size: 'L', Bust: '92-98 cm', Waist: '74-80 cm', Length: '116 cm' },
+        { Size: 'XL', Bust: '98-104 cm', Waist: '80-86 cm', Length: '118 cm' },
+      ],
+    },
+    {
+      id: 'tops',
+      name: 'Tops',
+      columns: ['Size', 'Chest', 'Shoulder', 'Length'],
+      rows: [
+        { Size: 'S', Chest: '86-90 cm', Shoulder: '38 cm', Length: '60 cm' },
+        { Size: 'M', Chest: '90-96 cm', Shoulder: '40 cm', Length: '62 cm' },
+        { Size: 'L', Chest: '96-102 cm', Shoulder: '42 cm', Length: '64 cm' },
+        { Size: 'XL', Chest: '102-108 cm', Shoulder: '44 cm', Length: '66 cm' },
+      ],
+    },
+    {
+      id: 'bottoms',
+      name: 'Bottoms',
+      columns: ['Size', 'Waist', 'Hip', 'Outseam'],
+      rows: [
+        { Size: 'S', Waist: '66-70 cm', Hip: '90-94 cm', Outseam: '96 cm' },
+        { Size: 'M', Waist: '70-76 cm', Hip: '94-100 cm', Outseam: '98 cm' },
+        { Size: 'L', Waist: '76-82 cm', Hip: '100-106 cm', Outseam: '100 cm' },
+        { Size: 'XL', Waist: '82-88 cm', Hip: '106-112 cm', Outseam: '102 cm' },
+      ],
+    },
+    {
+      id: 'denim',
+      name: 'Denim',
+      columns: ['Size', 'Waist', 'Hip', 'Inseam'],
+      rows: [
+        { Size: '28', Waist: '71 cm', Hip: '89 cm', Inseam: '76 cm' },
+        { Size: '30', Waist: '76 cm', Hip: '94 cm', Inseam: '78 cm' },
+        { Size: '32', Waist: '81 cm', Hip: '99 cm', Inseam: '80 cm' },
+        { Size: '34', Waist: '86 cm', Hip: '104 cm', Inseam: '82 cm' },
+        { Size: '36', Waist: '91 cm', Hip: '109 cm', Inseam: '82 cm' },
+      ],
+    },
+    {
+      id: 'outerwear',
+      name: 'Outerwear',
+      columns: ['Size', 'Chest', 'Shoulder', 'Sleeve'],
+      rows: [
+        { Size: 'S', Chest: '94 cm', Shoulder: '42 cm', Sleeve: '58 cm' },
+        { Size: 'M', Chest: '100 cm', Shoulder: '44 cm', Sleeve: '60 cm' },
+        { Size: 'L', Chest: '106 cm', Shoulder: '46 cm', Sleeve: '62 cm' },
+        { Size: 'XL', Chest: '112 cm', Shoulder: '48 cm', Sleeve: '64 cm' },
+      ],
+    },
+    {
+      id: 'kids',
+      name: 'Kidswear',
+      columns: ['Size', 'Age', 'Height', 'Chest'],
+      rows: [
+        { Size: '2Y', Age: '2 tahun', Height: '86-92 cm', Chest: '52 cm' },
+        { Size: '4Y', Age: '4 tahun', Height: '98-104 cm', Chest: '56 cm' },
+        { Size: '6Y', Age: '6 tahun', Height: '110-116 cm', Chest: '60 cm' },
+        { Size: '8Y', Age: '8 tahun', Height: '122-128 cm', Chest: '64 cm' },
+      ],
+    },
+    {
+      id: 'activewear',
+      name: 'Activewear',
+      columns: ['Size', 'Chest', 'Waist', 'Hip'],
+      rows: [
+        { Size: 'S', Chest: '84-88 cm', Waist: '66-70 cm', Hip: '90-94 cm' },
+        { Size: 'M', Chest: '88-94 cm', Waist: '70-76 cm', Hip: '94-100 cm' },
+        { Size: 'L', Chest: '94-100 cm', Waist: '76-82 cm', Hip: '100-106 cm' },
+      ],
+    },
+    {
+      id: 'accessories',
+      name: 'Accessories',
+      columns: ['Size', 'Dimension', 'Capacity', 'Strap'],
+      rows: [
+        {
+          Size: 'One Size',
+          Dimension: '38 x 34 cm',
+          Capacity: '12 L',
+          Strap: '58 cm',
+        },
+      ],
+    },
+  ],
   featuredProducts: [
     {
       id: 'linen-midi-dress',
@@ -117,7 +209,9 @@ export const landingPageLocalDatasource: LandingPageContent = {
       description:
         'Dress midi ringan dengan potongan santai untuk kerja, brunch, atau agenda akhir pekan.',
       material: '55% linen, 45% rayon',
+      colors: ['White', 'Sage', 'Navy'],
       sizes: ['S', 'M', 'L', 'XL'],
+      sizeGuideType: 'dress',
       stock: 24,
       imageUrl:
         'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=900&q=80',
@@ -134,7 +228,9 @@ export const landingPageLocalDatasource: LandingPageContent = {
       description:
         'Kemeja oversized berbahan katun yang mudah dipakai sebagai outer atau atasan utama.',
       material: '100% cotton poplin',
+      colors: ['White', 'Navy', 'Burgundy'],
       sizes: ['M', 'L', 'XL'],
+      sizeGuideType: 'tops',
       stock: 36,
       imageUrl:
         'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=900&q=80',
@@ -150,7 +246,9 @@ export const landingPageLocalDatasource: LandingPageContent = {
       description:
         'Celana wide leg dengan drape rapi untuk tampilan kantor dan kasual yang tetap nyaman.',
       material: 'Polyester twill stretch',
+      colors: ['Dusty Pink', 'Black', 'Khaki'],
       sizes: ['S', 'M', 'L'],
+      sizeGuideType: 'bottoms',
       stock: 18,
       imageUrl:
         'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=900&q=80',
@@ -165,7 +263,9 @@ export const landingPageLocalDatasource: LandingPageContent = {
       description:
         'Jaket denim workwear dengan struktur kuat dan kantong fungsional untuk layering harian.',
       material: '12 oz cotton denim',
+      colors: ['Indigo', 'Black'],
       sizes: ['M', 'L', 'XL', 'XXL'],
+      sizeGuideType: 'outerwear',
       stock: 12,
       imageUrl:
         'https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=900&q=80',
@@ -182,7 +282,9 @@ export const landingPageLocalDatasource: LandingPageContent = {
       description:
         'Setelan anak motif garis yang lembut dan fleksibel untuk aktivitas sepanjang hari.',
       material: 'Cotton jersey',
+      colors: ['Blue Stripe', 'Green Stripe'],
       sizes: ['2Y', '4Y', '6Y', '8Y'],
+      sizeGuideType: 'kids',
       stock: 20,
       imageUrl:
         'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=900&q=80',
@@ -197,7 +299,9 @@ export const landingPageLocalDatasource: LandingPageContent = {
       description:
         'Atasan rib knit dengan siluet clean yang cocok dipadukan dengan denim, rok, atau trouser.',
       material: 'Viscose rib knit blend',
+      colors: ['Ivory', 'Blue', 'Charcoal'],
       sizes: ['S', 'M', 'L'],
+      sizeGuideType: 'tops',
       stock: 28,
       imageUrl:
         'https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=900&q=80',
@@ -213,7 +317,9 @@ export const landingPageLocalDatasource: LandingPageContent = {
       description:
         'Rok midi lipit dengan jatuhan ringan untuk gaya kantor, kampus, dan akhir pekan.',
       material: 'Polyester chiffon blend',
+      colors: ['Maroon', 'Black', 'Cream'],
       sizes: ['S', 'M', 'L', 'XL'],
+      sizeGuideType: 'bottoms',
       stock: 22,
       imageUrl:
         'https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?auto=format&fit=crop&w=900&q=80',
@@ -229,7 +335,9 @@ export const landingPageLocalDatasource: LandingPageContent = {
       description:
         'Blouse halus dengan detail clean yang mudah dipadukan dengan trouser atau rok.',
       material: 'Satin polyester',
+      colors: ['Navy', 'Ivory', 'Blush'],
       sizes: ['S', 'M', 'L'],
+      sizeGuideType: 'tops',
       stock: 16,
       imageUrl:
         'https://images.unsplash.com/photo-1551803091-e20673f15770?auto=format&fit=crop&w=900&q=80',
@@ -244,7 +352,9 @@ export const landingPageLocalDatasource: LandingPageContent = {
       description:
         'Jeans straight leg warna medium wash untuk tampilan santai yang tetap rapi.',
       material: 'Cotton denim stretch',
+      colors: ['Medium Wash', 'Dark Wash'],
       sizes: ['28', '30', '32', '34', '36'],
+      sizeGuideType: 'denim',
       stock: 30,
       imageUrl:
         'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=900&q=80',
@@ -261,7 +371,9 @@ export const landingPageLocalDatasource: LandingPageContent = {
       description:
         'Trench coat ringan dengan potongan longline untuk layering saat cuaca berubah.',
       material: 'Water-repellent twill',
+      colors: ['Beige', 'Olive'],
       sizes: ['S', 'M', 'L', 'XL'],
+      sizeGuideType: 'outerwear',
       stock: 10,
       imageUrl:
         'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=900&q=80',
@@ -277,7 +389,9 @@ export const landingPageLocalDatasource: LandingPageContent = {
       description:
         'Set activewear dengan bahan cepat kering untuk olahraga ringan dan aktivitas harian.',
       material: 'Nylon spandex dry-fit',
+      colors: ['Yellow', 'Black', 'Teal'],
       sizes: ['S', 'M', 'L'],
+      sizeGuideType: 'activewear',
       stock: 26,
       imageUrl:
         'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80',
@@ -292,7 +406,9 @@ export const landingPageLocalDatasource: LandingPageContent = {
       description:
         'Tote bag kanvas dengan ruang besar untuk membawa kebutuhan kerja dan belanja.',
       material: 'Heavyweight cotton canvas',
+      colors: ['Tan', 'Black', 'Orange'],
       sizes: ['One Size'],
+      sizeGuideType: 'accessories',
       stock: 40,
       imageUrl:
         'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=900&q=80',

@@ -3,57 +3,100 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 export type CartItem = Product & {
+  cartItemId: string
+  selectedColor: string
+  selectedSize: string
   quantity: number
+}
+
+export type CartSelection = {
+  color: string
+  size: string
 }
 
 type CartState = {
   items: CartItem[]
-  addItem: (product: Product) => void
-  removeItem: (productId: string) => void
-  increaseItem: (productId: string) => void
-  decreaseItem: (productId: string) => void
+  addItem: (product: Product, selection?: CartSelection) => void
+  removeItem: (cartItemId: string) => void
+  increaseItem: (cartItemId: string) => void
+  decreaseItem: (cartItemId: string) => void
   clearCart: () => void
+}
+
+function createCartItemId(productId: string, selection: CartSelection) {
+  return `${productId}-${selection.color}-${selection.size}`
+}
+
+function getDefaultSelection(product: Product): CartSelection {
+  return {
+    color: product.colors?.[0] ?? 'Default',
+    size: product.sizes?.[0] ?? 'One Size',
+  }
+}
+
+function getCartItemId(item: CartItem) {
+  return (
+    item.cartItemId ??
+    createCartItemId(item.id, {
+      color: item.selectedColor ?? getDefaultSelection(item).color,
+      size: item.selectedSize ?? getDefaultSelection(item).size,
+    })
+  )
 }
 
 export const useCartStore = create<CartState>()(
   persist(
     (set) => ({
       items: [],
-      addItem: (product) =>
+      addItem: (product, selection = getDefaultSelection(product)) =>
         set((state) => {
+          const cartItemId = createCartItemId(product.id, selection)
           const existingItem = state.items.find(
-            (item) => item.id === product.id
+            (item) => getCartItemId(item) === cartItemId
           )
 
           if (existingItem) {
             return {
               items: state.items.map((item) =>
-                item.id === product.id
+                getCartItemId(item) === cartItemId
                   ? { ...item, quantity: item.quantity + 1 }
                   : item
               ),
             }
           }
 
-          return { items: [...state.items, { ...product, quantity: 1 }] }
+          return {
+            items: [
+              ...state.items,
+              {
+                ...product,
+                cartItemId,
+                selectedColor: selection.color,
+                selectedSize: selection.size,
+                quantity: 1,
+              },
+            ],
+          }
         }),
-      removeItem: (productId) =>
+      removeItem: (cartItemId) =>
         set((state) => ({
-          items: state.items.filter((item) => item.id !== productId),
+          items: state.items.filter(
+            (item) => getCartItemId(item) !== cartItemId
+          ),
         })),
-      increaseItem: (productId) =>
+      increaseItem: (cartItemId) =>
         set((state) => ({
           items: state.items.map((item) =>
-            item.id === productId
+            getCartItemId(item) === cartItemId
               ? { ...item, quantity: item.quantity + 1 }
               : item
           ),
         })),
-      decreaseItem: (productId) =>
+      decreaseItem: (cartItemId) =>
         set((state) => ({
           items: state.items
             .map((item) =>
-              item.id === productId
+              getCartItemId(item) === cartItemId
                 ? { ...item, quantity: Math.max(0, item.quantity - 1) }
                 : item
             )

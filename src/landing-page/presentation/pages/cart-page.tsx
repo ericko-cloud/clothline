@@ -22,6 +22,31 @@ function calculateDiscountAmount(discount: Discount, subtotal: number) {
   return Math.min(subtotal, discount.value)
 }
 
+function getCartItemSelection(item: {
+  colors?: string[]
+  selectedColor?: string
+  selectedSize?: string
+  sizes?: string[]
+}) {
+  return {
+    color: item.selectedColor ?? item.colors?.[0] ?? 'Default',
+    size: item.selectedSize ?? item.sizes?.[0] ?? 'One Size',
+  }
+}
+
+function getCartItemDisplayId(item: {
+  colors?: string[]
+  id: string
+  cartItemId?: string
+  selectedColor?: string
+  selectedSize?: string
+  sizes?: string[]
+}) {
+  const selection = getCartItemSelection(item)
+
+  return item.cartItemId ?? `${item.id}-${selection.color}-${selection.size}`
+}
+
 export function CartPage() {
   const { items, increaseItem, decreaseItem, removeItem, clearCart } =
     useCartStore()
@@ -106,7 +131,7 @@ export function CartPage() {
             <div className='space-y-4'>
               {items.map((item) => (
                 <article
-                  key={item.id}
+                  key={getCartItemDisplayId(item)}
                   className='grid gap-4 rounded-lg border bg-background p-4 sm:grid-cols-[120px_1fr_auto]'
                 >
                   <img
@@ -122,12 +147,16 @@ export function CartPage() {
                     <p className='mt-2 text-sm text-muted-foreground'>
                       {formatMoney(item.price)}
                     </p>
+                    <p className='mt-1 text-sm text-muted-foreground'>
+                      Warna: {getCartItemSelection(item).color} · Ukuran:{' '}
+                      {getCartItemSelection(item).size}
+                    </p>
                     <div className='mt-4 flex w-fit items-center rounded-md border'>
                       <Button
                         variant='ghost'
                         size='icon'
                         aria-label={`Kurangi ${item.name}`}
-                        onClick={() => decreaseItem(item.id)}
+                        onClick={() => decreaseItem(getCartItemDisplayId(item))}
                       >
                         <Minus className='size-4' />
                       </Button>
@@ -138,7 +167,7 @@ export function CartPage() {
                         variant='ghost'
                         size='icon'
                         aria-label={`Tambah ${item.name}`}
-                        onClick={() => increaseItem(item.id)}
+                        onClick={() => increaseItem(getCartItemDisplayId(item))}
                       >
                         <Plus className='size-4' />
                       </Button>
@@ -155,7 +184,7 @@ export function CartPage() {
                       variant='ghost'
                       size='icon'
                       aria-label={`Hapus ${item.name}`}
-                      onClick={() => removeItem(item.id)}
+                      onClick={() => removeItem(getCartItemDisplayId(item))}
                     >
                       <Trash2 className='size-4' />
                     </Button>

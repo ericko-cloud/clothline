@@ -2,6 +2,7 @@ import { landingPageLocalDatasource } from '@/landing-page/data/datasources/land
 import { type Category } from '@/landing-page/domain/entities/category'
 import { type Discount } from '@/landing-page/domain/entities/discount'
 import { type Product } from '@/landing-page/domain/entities/product'
+import { type SizeGuide } from '@/landing-page/domain/entities/size-guide'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -9,6 +10,7 @@ type MasterDataState = {
   categories: Category[]
   products: Product[]
   discounts: Discount[]
+  sizeGuides: SizeGuide[]
   addCategory: (category: Omit<Category, 'id'>) => void
   updateCategory: (category: Category) => void
   removeCategory: (categoryId: string) => void
@@ -34,6 +36,7 @@ export const useMasterDataStore = create<MasterDataState>()(
       categories: landingPageLocalDatasource.categories,
       products: landingPageLocalDatasource.featuredProducts,
       discounts: landingPageLocalDatasource.discounts,
+      sizeGuides: landingPageLocalDatasource.sizeGuides,
       addCategory: (category) =>
         set((state) => ({
           categories: [

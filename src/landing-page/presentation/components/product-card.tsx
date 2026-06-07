@@ -1,24 +1,16 @@
-import { Link, useNavigate } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 import { type Product } from '@/landing-page/domain/entities/product'
 import { formatMoney } from '@/landing-page/domain/value-objects/money'
 import { Heart, ShoppingBag, Star } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { useCartStore } from '../stores/cart-store'
+import { ProductVariantDialog } from './product-variant-dialog'
 
 type ProductCardProps = {
   product: Product
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const navigate = useNavigate()
-  const addItem = useCartStore((state) => state.addItem)
-
-  const handleAddToCart = () => {
-    addItem(product)
-    navigate({ to: '/cart' })
-  }
-
   return (
     <article className='group overflow-hidden rounded-lg border bg-background'>
       <div className='relative aspect-[4/5] overflow-hidden bg-muted'>
@@ -75,13 +67,14 @@ export function ProductCard({ product }: ProductCardProps) {
               </div>
             ) : null}
           </div>
-          <Button
-            size='icon'
-            aria-label={`Add ${product.name} to bag`}
-            onClick={handleAddToCart}
-          >
-            <ShoppingBag className='size-4' />
-          </Button>
+          <ProductVariantDialog
+            product={product}
+            trigger={
+              <Button size='icon' aria-label={`Add ${product.name} to bag`}>
+                <ShoppingBag className='size-4' />
+              </Button>
+            }
+          />
         </div>
         <p className='text-sm text-muted-foreground'>
           {product.soldCount} terjual

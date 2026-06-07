@@ -17,11 +17,17 @@ export function useLandingPage() {
       ? state.products
       : landingPageLocalDatasource.featuredProducts
   )
+  const sizeGuides = useMasterDataStore((state) =>
+    Array.isArray(state.sizeGuides)
+      ? state.sizeGuides
+      : landingPageLocalDatasource.sizeGuides
+  )
 
   return {
     categories,
     discounts,
     featuredProducts,
+    sizeGuides,
     testimonials: landingPageLocalDatasource.testimonials,
   }
 }

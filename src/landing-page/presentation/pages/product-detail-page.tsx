@@ -1,12 +1,20 @@
-import { Link, useNavigate, useParams } from '@tanstack/react-router'
+import { Link, useParams } from '@tanstack/react-router'
 import { formatMoney } from '@/landing-page/domain/value-objects/money'
 import { ArrowLeft, ShoppingBag, Star } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { ProductVariantDialog } from '../components/product-variant-dialog'
 import { ShopPageShell } from '../components/shop-page-shell'
 import { useLandingPage } from '../hooks/use-landing-page'
-import { useCartStore } from '../stores/cart-store'
 
 type ProductDetailPageProps = {
   productId: string
@@ -19,9 +27,7 @@ export function ProductDetailRoutePage() {
 }
 
 export function ProductDetailPage({ productId }: ProductDetailPageProps) {
-  const navigate = useNavigate()
-  const { featuredProducts } = useLandingPage()
-  const addItem = useCartStore((state) => state.addItem)
+  const { featuredProducts, sizeGuides } = useLandingPage()
   const product = featuredProducts.find((item) => item.id === productId)
 
   if (!product) {
@@ -43,11 +49,9 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
 
   const sizes = product.sizes?.length ? product.sizes : ['S', 'M', 'L']
   const stock = product.stock ?? 0
-
-  const handleAddToCart = () => {
-    addItem(product)
-    navigate({ to: '/cart' })
-  }
+  const sizeGuide = sizeGuides.find(
+    (guide) => guide.id === product.sizeGuideType
+  )
 
   return (
     <ShopPageShell>
@@ -127,20 +131,49 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
             </div>
 
             <div className='mt-8 flex flex-col gap-3 sm:flex-row'>
-              <Button
-                size='lg'
-                onClick={handleAddToCart}
-                disabled={stock === 0}
-              >
-                <ShoppingBag className='size-4' />
-                {stock > 0 ? 'Tambah ke Keranjang' : 'Stok Habis'}
-              </Button>
+              <ProductVariantDialog
+                product={product}
+                trigger={
+                  <Button size='lg' disabled={stock === 0}>
+                    <ShoppingBag className='size-4' />
+                    {stock > 0 ? 'Tambah ke Keranjang' : 'Stok Habis'}
+                  </Button>
+                }
+              />
               <Button size='lg' variant='outline' asChild>
                 <Link to='/cart'>Lihat Keranjang</Link>
               </Button>
             </div>
           </div>
         </div>
+        {sizeGuide ? (
+          <div className='mt-12 rounded-lg border bg-background p-5'>
+            <div className='mb-4'>
+              <p className='text-sm font-medium tracking-[0.16em] text-muted-foreground uppercase'>
+                Panduan Ukuran
+              </p>
+              <h2 className='mt-2 text-2xl font-semibold'>{sizeGuide.name}</h2>
+            </div>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  {sizeGuide.columns.map((column) => (
+                    <TableHead key={column}>{column}</TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {sizeGuide.rows.map((row, index) => (
+                  <TableRow key={`${sizeGuide.id}-${index}`}>
+                    {sizeGuide.columns.map((column) => (
+                      <TableCell key={column}>{row[column]}</TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        ) : null}
       </section>
     </ShopPageShell>
   )

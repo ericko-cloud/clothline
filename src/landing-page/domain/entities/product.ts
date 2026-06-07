@@ -6,7 +6,9 @@ export type Product = {
   category: string
   description?: string
   material?: string
+  colors?: string[]
   sizes?: string[]
+  sizeGuideType?: string
   stock?: number
   imageUrl: string
   price: Money
