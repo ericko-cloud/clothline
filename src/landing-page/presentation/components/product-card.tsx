@@ -37,32 +37,34 @@ export function ProductCard({ product }: ProductCardProps) {
           <Heart className='size-4' />
         </Button>
       </div>
-      <div className='space-y-3 p-4'>
+      <div className='space-y-3 p-3 sm:p-4'>
         <div className='flex items-start justify-between gap-3'>
-          <div>
+          <div className='min-w-0'>
             <p className='text-xs font-medium tracking-[0.12em] text-muted-foreground uppercase'>
               {product.category}
             </p>
-            <h3 className='mt-1 font-semibold'>
+            <h3 className='mt-1 text-sm font-semibold sm:text-base'>
               <Link
                 to='/products/$productId'
                 params={{ productId: product.id }}
-                className='transition hover:text-muted-foreground'
+                className='line-clamp-2 transition hover:text-muted-foreground'
               >
                 {product.name}
               </Link>
             </h3>
           </div>
-          <div className='flex items-center gap-1 text-sm'>
-            <Star className='size-4 fill-amber-400 text-amber-400' />
+          <div className='flex shrink-0 items-center gap-1 text-xs sm:text-sm'>
+            <Star className='size-3.5 fill-amber-400 text-amber-400 sm:size-4' />
             {product.rating}
           </div>
         </div>
         <div className='flex items-center justify-between gap-3'>
-          <div>
-            <div className='font-semibold'>{formatMoney(product.price)}</div>
+          <div className='min-w-0'>
+            <div className='text-sm font-semibold sm:text-base'>
+              {formatMoney(product.price)}
+            </div>
             {product.originalPrice ? (
-              <div className='text-sm text-muted-foreground line-through'>
+              <div className='text-xs text-muted-foreground line-through sm:text-sm'>
                 {formatMoney(product.originalPrice)}
               </div>
             ) : null}
@@ -70,13 +72,17 @@ export function ProductCard({ product }: ProductCardProps) {
           <ProductVariantDialog
             product={product}
             trigger={
-              <Button size='icon' aria-label={`Add ${product.name} to bag`}>
+              <Button
+                size='icon'
+                className='size-8 sm:size-9'
+                aria-label={`Add ${product.name} to bag`}
+              >
                 <ShoppingBag className='size-4' />
               </Button>
             }
           />
         </div>
-        <p className='text-sm text-muted-foreground'>
+        <p className='text-xs text-muted-foreground sm:text-sm'>
           {product.soldCount} terjual
         </p>
       </div>

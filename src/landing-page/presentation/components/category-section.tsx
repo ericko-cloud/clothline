@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { Link } from '@tanstack/react-router'
 import { type Category } from '@/landing-page/domain/entities/category'
 import { Button } from '@/components/ui/button'
@@ -5,15 +6,23 @@ import { Button } from '@/components/ui/button'
 type CategorySectionProps = {
   categories: Category[]
   limit?: number
+  mobileLimit?: number
   showAllLink?: boolean
 }
 
 export function CategorySection({
   categories,
   limit,
+  mobileLimit,
   showAllLink,
 }: CategorySectionProps) {
-  const visibleCategories = limit ? categories.slice(0, limit) : categories
+  const visibleCategories = useMemo(
+    () => (limit ? categories.slice(0, limit) : categories),
+    [categories, limit]
+  )
+  const mobileCategories = mobileLimit
+    ? visibleCategories.slice(0, mobileLimit)
+    : visibleCategories
 
   return (
     <section
@@ -36,29 +45,40 @@ export function CategorySection({
         </div>
       </div>
 
-      <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+      <div className='grid grid-cols-2 gap-3 sm:hidden'>
+        {mobileCategories.map((category) => (
+          <CategoryCard key={category.id} category={category} />
+        ))}
+      </div>
+
+      <div className='hidden gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-4'>
         {visibleCategories.map((category) => (
-          <Link
-            key={category.id}
-            to='/catalog'
-            search={{ category: category.name }}
-            className='group relative min-h-[330px] overflow-hidden rounded-lg bg-muted'
-          >
-            <img
-              src={category.imageUrl}
-              alt={category.name}
-              className='absolute inset-0 size-full object-cover transition duration-500 group-hover:scale-105'
-            />
-            <div className='absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent' />
-            <div className='absolute inset-x-0 bottom-0 p-5 text-white'>
-              <h3 className='text-2xl font-semibold'>{category.name}</h3>
-              <p className='mt-2 text-sm leading-6 text-white/75'>
-                {category.description}
-              </p>
-            </div>
-          </Link>
+          <CategoryCard key={category.id} category={category} />
         ))}
       </div>
     </section>
+  )
+}
+
+function CategoryCard({ category }: { category: Category }) {
+  return (
+    <Link
+      to='/catalog'
+      search={{ category: category.name }}
+      className='group relative min-h-[220px] overflow-hidden rounded-lg bg-muted sm:min-h-[330px]'
+    >
+      <img
+        src={category.imageUrl}
+        alt={category.name}
+        className='absolute inset-0 size-full object-cover transition duration-500 group-hover:scale-105'
+      />
+      <div className='absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent' />
+      <div className='absolute inset-x-0 bottom-0 p-5 text-white'>
+        <h3 className='text-xl font-semibold sm:text-2xl'>{category.name}</h3>
+        <p className='mt-2 text-xs leading-5 text-white/75 sm:text-sm sm:leading-6'>
+          {category.description}
+        </p>
+      </div>
+    </Link>
   )
 }

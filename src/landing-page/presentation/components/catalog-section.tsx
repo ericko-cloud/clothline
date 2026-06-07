@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { Link } from '@tanstack/react-router'
 import { type Product } from '@/landing-page/domain/entities/product'
 import { Search } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -14,7 +15,9 @@ import { ProductCard } from './product-card'
 
 type CatalogSectionProps = {
   initialCategory?: string
+  mobileLimit?: number
   products: Product[]
+  showAllLink?: boolean
 }
 
 const statusFilters = ['All', 'Sale', 'New', 'Best Seller'] as const
@@ -22,7 +25,9 @@ const allCategoriesValue = 'all-categories'
 
 export function CatalogSection({
   initialCategory,
+  mobileLimit,
   products,
+  showAllLink,
 }: CatalogSectionProps) {
   const [statusFilter, setStatusFilter] =
     useState<(typeof statusFilters)[number]>('All')
@@ -68,6 +73,9 @@ export function CatalogSection({
     categoryFilter === allCategoriesValue
       ? statusFilter
       : `${statusFilter} / ${categoryFilter}`
+  const mobileProducts = mobileLimit
+    ? filteredProducts.slice(0, mobileLimit)
+    : filteredProducts
 
   return (
     <section id='catalog' className='border-y bg-muted/35'>
@@ -121,7 +129,13 @@ export function CatalogSection({
           </div>
         </div>
 
-        <div className='grid gap-5 sm:grid-cols-2 lg:grid-cols-4'>
+        <div className='grid grid-cols-2 gap-3 sm:hidden'>
+          {mobileProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+
+        <div className='hidden gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-4'>
           {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -130,6 +144,13 @@ export function CatalogSection({
           <div className='mt-10 rounded-lg border bg-background p-8 text-center text-sm text-muted-foreground'>
             Belum ada produk untuk filter {activeFilterLabel}
             {searchQuery.trim() ? ` dengan kata "${searchQuery.trim()}".` : '.'}
+          </div>
+        ) : null}
+        {showAllLink && filteredProducts.length > 0 ? (
+          <div className='mt-8 flex justify-center'>
+            <Button asChild>
+              <Link to='/catalog'>Lainnya</Link>
+            </Button>
           </div>
         ) : null}
       </div>

@@ -3,6 +3,7 @@ import { Link } from '@tanstack/react-router'
 import { type Discount } from '@/landing-page/domain/entities/discount'
 import { formatMoney } from '@/landing-page/domain/value-objects/money'
 import { Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
@@ -147,10 +148,14 @@ export function CartPage() {
                     <p className='mt-2 text-sm text-muted-foreground'>
                       {formatMoney(item.price)}
                     </p>
-                    <p className='mt-1 text-sm text-muted-foreground'>
-                      Warna: {getCartItemSelection(item).color} · Ukuran:{' '}
-                      {getCartItemSelection(item).size}
-                    </p>
+                    <div className='mt-2 flex flex-wrap gap-2'>
+                      <Badge variant='secondary'>
+                        Warna: {getCartItemSelection(item).color}
+                      </Badge>
+                      <Badge variant='secondary'>
+                        Ukuran: {getCartItemSelection(item).size}
+                      </Badge>
+                    </div>
                     <div className='mt-4 flex w-fit items-center rounded-md border'>
                       <Button
                         variant='ghost'

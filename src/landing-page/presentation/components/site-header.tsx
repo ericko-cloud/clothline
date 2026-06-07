@@ -1,7 +1,22 @@
 import { Link } from '@tanstack/react-router'
 import { LayoutDashboard, Menu, Search, ShoppingBag } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet'
 import { useCartStore } from '../stores/cart-store'
+
+const navigationItems = [
+  { label: 'Home', to: '/' },
+  { label: 'Katalog', to: '/catalog' },
+  { label: 'Kategori', to: '/categories' },
+  { label: 'Tentang', to: '/about' },
+] as const
 
 export function SiteHeader() {
   const cartCount = useCartStore((state) =>
@@ -19,18 +34,15 @@ export function SiteHeader() {
         </Link>
 
         <nav className='hidden items-center gap-7 text-sm font-medium text-muted-foreground md:flex'>
-          <Link to='/' className='transition hover:text-foreground'>
-            Home
-          </Link>
-          <Link to='/catalog' className='transition hover:text-foreground'>
-            Katalog
-          </Link>
-          <Link to='/categories' className='transition hover:text-foreground'>
-            Kategori
-          </Link>
-          <Link to='/about' className='transition hover:text-foreground'>
-            Tentang
-          </Link>
+          {navigationItems.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              className='transition hover:text-foreground'
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
         <div className='flex items-center gap-2'>
@@ -53,14 +65,64 @@ export function SiteHeader() {
               Demo
             </Link>
           </Button>
-          <Button
-            variant='outline'
-            size='icon'
-            className='md:hidden'
-            aria-label='Open menu'
-          >
-            <Menu className='size-4' />
-          </Button>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button
+                variant='outline'
+                size='icon'
+                className='md:hidden'
+                aria-label='Open menu'
+              >
+                <Menu className='size-4' />
+              </Button>
+            </SheetTrigger>
+            <SheetContent className='w-[300px] p-0 md:hidden'>
+              <SheetHeader className='border-b p-5 text-left'>
+                <SheetTitle>
+                  <span className='flex items-center gap-2'>
+                    <span className='flex size-9 items-center justify-center rounded-md bg-foreground text-sm text-background'>
+                      CL
+                    </span>
+                    Clothline
+                  </span>
+                </SheetTitle>
+              </SheetHeader>
+              <nav className='flex flex-col p-3'>
+                {navigationItems.map((item) => (
+                  <SheetClose key={item.to} asChild>
+                    <Link
+                      to={item.to}
+                      className='rounded-md px-3 py-3 text-sm font-medium transition hover:bg-muted'
+                    >
+                      {item.label}
+                    </Link>
+                  </SheetClose>
+                ))}
+                <SheetClose asChild>
+                  <Link
+                    to='/cart'
+                    className='flex items-center justify-between rounded-md px-3 py-3 text-sm font-medium transition hover:bg-muted'
+                  >
+                    Keranjang
+                    {cartCount > 0 ? (
+                      <span className='flex min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-xs leading-5 font-semibold text-primary-foreground'>
+                        {cartCount}
+                      </span>
+                    ) : null}
+                  </Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link
+                    to='/admin'
+                    className='mt-2 flex items-center gap-2 rounded-md border px-3 py-3 text-sm font-medium transition hover:bg-muted'
+                  >
+                    <LayoutDashboard className='size-4' />
+                    Admin
+                  </Link>
+                </SheetClose>
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>
